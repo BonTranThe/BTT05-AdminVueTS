@@ -70,8 +70,8 @@ import { mapState } from 'vuex';
 interface Product {
   id: string,
   name: string,
-  price: number,
-  quantity: number,
+  price: string,
+  quantity: string,
 }
 import { defineComponent } from 'vue';
 const STORAGE_KEY = "listProduct";
@@ -137,9 +137,11 @@ export default defineComponent({
   },
   methods: {
     saveItem() {
-      let eleForm = this.$refs.form as HTMLFormElement;
-      let valid = eleForm.validate();
-      if (!valid) {
+      if (
+        this.productEdit.price === "" ||
+        this.productEdit.quantity === "" ||
+        this.productEdit.name === ""
+      ) {
         this.showModalFailed = true;
         return;
       } else {

@@ -73,8 +73,8 @@ import { store } from '../store/index'
 interface Product {
   id: string,
   name: string,
-  price: number,
-  quantity: number,
+  price: string,
+  quantity: string,
 }
 export default defineComponent({
   name: "EditProductApi",
@@ -118,11 +118,16 @@ export default defineComponent({
     saveItem() {
       if (
        this.productEdit.name === "" ||
-       this.productEdit.price === null ||
-       this.productEdit.quantity === null
+       this.productEdit.price === "" ||
+       this.productEdit.quantity === ""
       ) {
        this.showModalFailed = true;
-      } else {
+       return;
+      } else if (
+       this.productEdit.name != "" &&
+       this.productEdit.price != null &&
+       this.productEdit.quantity != null
+      ) {
        store.dispatch("editProductAPI", this.productEdit);
        this.loading = true;
         setTimeout(() => {
