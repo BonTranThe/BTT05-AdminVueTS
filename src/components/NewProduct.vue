@@ -46,14 +46,25 @@
       <router-link to="/homemanage/listproduct">Go to List Product</router-link>
     </el-card>
   </div>
-  <div class="modal" v-if="showModal">
+  <div class="modal" v-if="showModalSuccess">
     <transition name="fade" appear>
       <div class="modal-overlay"></div>
     </transition>
     <transition name="slide" appear>
-      <div class="alert">
-        <p>Add New Product Successfull!</p>
-        <el-button type="primary" @click="showModal = false">Close</el-button>
+      <div class="alertSuccess">
+        <p>Add Product Successfull!</p>
+        <el-button type="success" @click="showModalSuccess = false">Close</el-button>
+      </div>
+    </transition>
+  </div>
+    <div class="modal" v-if="showModalFailed">
+    <transition name="fade" appear>
+      <div class="modal-overlay"></div>
+    </transition>
+    <transition name="slide" appear>
+      <div class="alertFailed">
+        <p>Add Product Failed!</p>
+        <el-button type="error" @click="showModalFailed = false">Close</el-button>
       </div>
     </transition>
   </div>
@@ -67,7 +78,8 @@ export default defineComponent({
   name: "NewProduct",
   data() {
     return {
-      showModal: false,
+      showModalFailed: false,
+      showModalSuccess: false,
       products: store.state.products,
       product: store.state.product,
       loading: false,
@@ -89,9 +101,11 @@ export default defineComponent({
         this.product.quantity === null
       ) {
         this.loading = true;
-        setTimeout(() => (this.loading = false), 3000);
         e.preventDefault();
-        // this.$message.error("Please fill out fully to add new product!");
+        setTimeout(() =>{
+          this.loading = false;
+          this.showModalFailed = true;
+        }, 1000);
         return;
       } else {
         this.loading = true;
@@ -104,11 +118,11 @@ export default defineComponent({
           quantity: this.product.quantity,
         });
         setTimeout(() => {
-          this.showModal = true;
+          this.showModalSuccess = true;
           this.product.name = "";
           this.product.price = "";
           this.product.quantity = "";
-        },2000);
+        },1000);
       }
     },
   },
@@ -191,15 +205,28 @@ el-input {
   opacity: 0;
 }
 
-.alert {
+.alertSuccess {
   position: absolute;
   z-index: 3;
   background-color: #fff;
+  color: rgb(13, 221, 13);
   width: 300px;
   height: 100px;
-  border: 2px solid rgb(9, 245, 99);
+  border: 2px solid rgb(18, 214, 34);
   border-radius: 5px;
-  color: rgb(14, 238, 14);
+  top: 420px;
+  left: 870px;
+}
+
+.alertFailed {
+  position: absolute;
+  z-index: 3;
+  background-color: #fff;
+  color: red;
+  width: 300px;
+  height: 100px;
+  border: 2px solid rgb(228, 10, 10);
+  border-radius: 5px;
   top: 420px;
   left: 870px;
 }

@@ -42,7 +42,7 @@
       </el-form>
     </el-card>
   </div>
-    <div class="modal" v-if="showModalSuccess">
+  <div class="modal" v-if="showModalSuccess">
     <transition name="fade" appear>
       <div class="modal-overlay"></div>
     </transition>
@@ -70,8 +70,8 @@ import { mapState } from 'vuex';
 interface Product {
   id: string,
   name: string,
-  price: number,
-  quantity: number,
+  price: string,
+  quantity: string,
 }
 import { defineComponent } from 'vue';
 const STORAGE_KEY = "listProduct";
@@ -137,12 +137,19 @@ export default defineComponent({
   },
   methods: {
     saveItem() {
-      let eleForm = this.$refs.form as HTMLFormElement;
-      let valid = eleForm.validate();
-      if (!valid) {
+      if (
+        this.productEdit.price === "" ||
+        this.productEdit.quantity === "" ||
+        this.productEdit.name === ""
+      ) {
         this.showModalFailed = true;
         return;
-      } else {
+      }
+      if (
+        this.productEdit.price === "" &&
+        this.productEdit.quantity === "" &&
+        this.productEdit.name === ""
+      ) {
         this.showModalSuccess = true;
         this.$router.push("/homemanage/listproduct");
       }
