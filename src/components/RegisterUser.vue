@@ -13,11 +13,10 @@
         </el-form-item>
         <el-form-item prop="email">
           <el-input
-            type="email"
             v-model="userAPI.email"
             placeholder="Email"
             prefix-icon="Postcard"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -61,15 +60,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import { mapState } from "vuex";
+import { store } from '../store/index';
 interface UserAPI {
   username: string,
   email: string,
   password: string,
   isLogin: boolean,
 }
-import { store } from '../store/index'
 export default defineComponent({
   name: "RegisterUser",
   data() {
@@ -97,9 +96,9 @@ export default defineComponent({
             trigger: "blur",
           },
           {
-            min: 11,
-            message: "Email length should be at least 11 characters and has '@gmail.com' ",
-            trigger: "blur",
+            type: "email",
+            message: "Email Correctly has '@gmail.com'!",
+            trigger: ["blur","change"],
           },
         ],
         password: [
@@ -136,7 +135,6 @@ export default defineComponent({
     },
 
     addUser(e: MouseEvent) {
-      console.log(this.usersAPI);
       this.loading = true;
       if (
         this.userAPI.username === "" ||
@@ -144,15 +142,11 @@ export default defineComponent({
         this.userAPI.password === ""
       ) {
         e.preventDefault();
-        setTimeout(() => {
-          this.loading = false;
-          // this.$message.error("PLEASE FILL OUT FULLY IN REGISTER FORM TO REGISTER ACCOUNT!")
-        }, 600);
+        setTimeout(() => (this.loading = false), 600);
         return;
       } else {
         setTimeout(() => {
           this.loading = false;
-          // this.$message.success("Register Successfull!");
           this.userAPI.username = "";
           this.userAPI.email = "";
           this.userAPI.password = "";

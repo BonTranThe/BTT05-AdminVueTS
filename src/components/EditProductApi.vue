@@ -70,7 +70,7 @@
 import { mapState } from 'vuex';
 import { defineComponent } from 'vue'
 import { store } from '../store/index'
-interface Product {
+interface ProductAPI {
   id: string,
   name: string,
   price: string,
@@ -110,8 +110,8 @@ export default defineComponent({
   },
   computed: {
     ...mapState(["productsAPI"]),
-    productEdit(): Product {
-      return this.productsAPI.find((product: Product) => product.id == this.$route.query.id);
+    productEdit(): ProductAPI {
+      return this.productsAPI.find((product: ProductAPI) => product.id == this.$route.query.id);
     },
   },
   methods: {
@@ -123,7 +123,8 @@ export default defineComponent({
       ) {
        this.showModalFailed = true;
        return;
-      } else if (
+      }
+      if (
        this.productEdit.name != "" &&
        this.productEdit.price != null &&
        this.productEdit.quantity != null

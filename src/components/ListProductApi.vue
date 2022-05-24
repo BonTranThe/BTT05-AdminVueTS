@@ -1,6 +1,7 @@
 <template>
   <div id="listProduct">
     <h1 style="text-align: center; font-size: 30px">List Product API</h1>
+    <el-input class="search" v-model="search" size="small" placeholder="Type to search" />
     <el-table :data="filterTableData" border style="width: 100%">
       <el-table-column type="index" width="100" label="Order" align="center" />
       <el-table-column label="Serial" prop="id" align="center" width="220" />
@@ -59,13 +60,19 @@
 import { mapState } from "vuex";
 import { defineComponent } from 'vue'
 import { store } from '../store/index'
-
+interface ProductAPI {
+  id: string,
+  name: string,
+  price: string,
+  quantity: string,
+}
 export default defineComponent({
   name: "ListProductApi",
   data() {
     return {
       data: null,
       showModalSuccess: false,
+      search: "",
     }
   },
 
@@ -76,7 +83,16 @@ export default defineComponent({
   computed: {
     ...mapState(["productsAPI"]),
     filterTableData(): [] {
-      return this.productsAPI;
+      if (!this.search) {
+        return this.productsAPI;
+      } else {
+        return this.productsAPI.filter(((item: ProductAPI) => {
+          if (item.name.toLowerCase().includes(this.search.toLowerCase())) {
+            return item;
+            }
+          })
+        )
+      }
     },
   },
 
@@ -111,7 +127,12 @@ export default defineComponent({
 a {
   text-decoration: none;
 }
-
+.search {
+  max-width: 500px;
+  margin: 0 auto 20px;
+  height: 30px;
+  font-size: 15px;
+}
 .edit {
   margin-right: 14px;
 }

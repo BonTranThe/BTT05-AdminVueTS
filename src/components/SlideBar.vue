@@ -9,7 +9,7 @@
           text-color="#fff"
         >
           <router-link to="/homemanage">
-            <el-menu-item index="1" @click="toHomeManage">
+            <el-menu-item index="1">
               <template #title>
                 <el-icon><homeFilled /></el-icon>
                 <span>Home</span>

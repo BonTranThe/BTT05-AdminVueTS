@@ -42,7 +42,7 @@
       </el-form>
     </el-card>
   </div>
-    <div class="modal" v-if="showModalSuccess">
+  <div class="modal" v-if="showModalSuccess">
     <transition name="fade" appear>
       <div class="modal-overlay"></div>
     </transition>
@@ -144,7 +144,12 @@ export default defineComponent({
       ) {
         this.showModalFailed = true;
         return;
-      } else {
+      }
+      if (
+        this.productEdit.price === "" &&
+        this.productEdit.quantity === "" &&
+        this.productEdit.name === ""
+      ) {
         this.showModalSuccess = true;
         this.$router.push("/homemanage/listproduct");
       }
