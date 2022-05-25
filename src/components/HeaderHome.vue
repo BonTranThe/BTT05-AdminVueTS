@@ -27,6 +27,7 @@ interface userAPI {
   password: string,
   isLogin: boolean,
 }
+
 export default defineComponent({
   name: "HeaderHome",
   mounted() {
@@ -39,6 +40,7 @@ export default defineComponent({
       const current = this.usersAPI.find((user: userAPI) => user.isLogin == true);
       return current?.username;
     },
+
     isLogout(): string {
       const current = this.usersAPI.find((user: userAPI) => user.isLogin == true);
       return current.id;

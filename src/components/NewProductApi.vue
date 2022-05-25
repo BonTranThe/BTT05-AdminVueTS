@@ -44,31 +44,50 @@
           >
         </el-form-item>
       </el-form>
-      <router-link to="/homemanage/listproductapi">Go to List Product API</router-link>
+      <router-link to="/homemanage/listproductapi"
+        >Go to List Product API</router-link
+      >
     </el-card>
   </div>
-  <div class="modal" v-if="showModal">
+  <div class="modal" v-if="showModalSuccess">
     <transition name="fade" appear>
       <div class="modal-overlay"></div>
     </transition>
     <transition name="slide" appear>
-      <div class="alert">
-        <p>Add New Product Successfull!</p>
-        <el-button type="primary" @click="showModal = false">Close</el-button>
+      <div class="alertSuccess">
+        <p>Add Product Successfull!</p>
+        <el-button type="success" @click="showModalSuccess = false"
+          >Close</el-button
+        >
+      </div>
+    </transition>
+  </div>
+  <div class="modal" v-if="showModalFailed">
+    <transition name="fade" appear>
+      <div class="modal-overlay"></div>
+    </transition>
+    <transition name="slide" appear>
+      <div class="alertFailed">
+        <p>Add Product Failed!</p>
+        <el-button type="error" @click="showModalFailed = false"
+          >Close</el-button
+        >
       </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { store } from '../store/index'
+import { defineComponent } from "vue";
+import { store } from "../store/index";
+
 export default defineComponent({
   name: "NewProductApi",
   data() {
     return {
       productAPI: store.state.productAPI,
-      showModal: false,
+      showModalFailed: false,
+      showModalSuccess: false,
       loading: false,
       rulesProduct: {
         name: [
@@ -103,18 +122,25 @@ export default defineComponent({
         this.productAPI.price === "" ||
         this.productAPI.quantity === ""
       ) {
-        setTimeout(() => (this.loading = false), 3000);
         e.preventDefault();
-        // this.$message.error("Please fill out fully to add new product!");
-        return;
-      } else {
         setTimeout(() => {
           this.loading = false;
-          this.showModal = true;
+          this.showModalFailed = true;
+        }, 1000);
+        return;
+      }
+      if (
+        this.productAPI.name !== "" &&
+        this.productAPI.price !== "" &&
+        this.productAPI.quantity !== ""
+      ) {
+        setTimeout(() => {
+          this.loading = false;
+          this.showModalSuccess = true;
           this.productAPI.name = "";
           this.productAPI.price = "";
           this.productAPI.quantity = "";
-        },2000);
+        }, 1000);
         e.preventDefault();
         store.dispatch("addProductAPI", this.productAPI);
       }
@@ -199,14 +225,27 @@ el-input {
   opacity: 0;
 }
 
-.alert {
+.alertSuccess {
   position: absolute;
   z-index: 3;
-  background-color: rgb(255, 255, 255);
-  color: rgb(27, 252, 7);
+  background-color: #fff;
+  color: rgb(13, 221, 13);
   width: 300px;
   height: 100px;
-  border: 2px solid rgb(27, 252, 7);
+  border: 2px solid rgb(18, 214, 34);
+  border-radius: 5px;
+  top: 420px;
+  left: 870px;
+}
+
+.alertFailed {
+  position: absolute;
+  z-index: 3;
+  background-color: #fff;
+  color: red;
+  width: 300px;
+  height: 100px;
+  border: 2px solid rgb(228, 10, 10);
   border-radius: 5px;
   top: 420px;
   left: 870px;

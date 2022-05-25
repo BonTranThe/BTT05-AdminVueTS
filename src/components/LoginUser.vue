@@ -2,20 +2,16 @@
   <div class="login">
     <el-card>
       <h1>Login Form</h1>
-      <el-form
-        ref="form"
-        :model="userAPI"
-        class="login-form"
-        :rules="rules"
-      >
-        <el-form-item>
+      <el-form ref="form" :model="userAPI" class="login-form" :rules="rules">
+        <el-form-item prop="username">
           <el-input
+            type="text"
             v-model="userAPI.username"
             placeholder="Username"
             prefix-icon="UserFilled"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input
             v-model="userAPI.password"
             placeholder="Password"
@@ -56,16 +52,17 @@
 
 <script lang="ts">
 import { mapState } from "vuex";
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import { store } from "../store/index";
 
 interface UserAPI {
-  id: string,
-  username: string,
-  email: string,
-  password: string,
-  isLogin: boolean,
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  isLogin: boolean;
 }
+
 export default defineComponent({
   name: "LoginUser",
   data() {
@@ -80,20 +77,11 @@ export default defineComponent({
             message: "Username is required",
             trigger: "blur",
           },
-          {
-            min: 4,
-            message: "Username length should be at least 4 characters",
-            trigger: "blur",
-          },
         ],
         password: [
           {
             required: true,
             message: "Password is required",
-            trigger: "blur" },
-          {
-            min: 5,
-            message: "Password length should be at least 5 characters",
             trigger: "blur",
           },
         ],
@@ -127,22 +115,23 @@ export default defineComponent({
     },
 
     log(e: MouseEvent) {
+      this.loading = true;
       if (this.userAPI.username === "" || this.userAPI.password === "") {
         e.preventDefault();
-        // this.$message.error("PLEASE FILL OUT FULLY IN LOGIN FORM");
+        setTimeout(() => (this.loading = false), 600);
+        alert("Failed!");
         return;
       } else if (this.usersAPI.length === 0) {
         e.preventDefault();
-        // this.$message.error("NO ACCOUNT! PLEASE REGISTER FOR AN ACCOUNT BEFORE LOGGING IN!");
         this.resetInput();
         return;
-      }
-      else {
+      } else {
         e.preventDefault();
         this.filterDataUser.forEach(async (item: UserAPI) => {
-          if (this.userAPI.username === item.username && this.userAPI.password === item.password) {
-            this.loading = true;
-            // this.$message.success("LOG IN SUCCESSFULL!");
+          if (
+            this.userAPI.username === item.username &&
+            this.userAPI.password === item.password
+          ) {
             await store.dispatch("loginUser", item.id);
             this.$router.push("/homemanage");
           }
@@ -205,6 +194,7 @@ el-input {
 .icon-hide:hover {
   cursor: pointer;
 }
+
 .icon-show {
   display: none;
 }

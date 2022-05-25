@@ -60,6 +60,7 @@ import { mapState } from "vuex";
 import { defineComponent } from 'vue'
 
 const STORAGE_KEY = "listProduct";
+
 export default defineComponent({
   name: "ListProduct",
   data() {
@@ -67,12 +68,14 @@ export default defineComponent({
       showModalSuccess: false,
     }
   },
+
   computed: {
     ...mapState(["products"]),
     filterTableData(): object {
       return this.products;
     },
   },
+
   watch: {
     products: {
       handler(products: object) {
@@ -81,11 +84,13 @@ export default defineComponent({
       deep: true,
     },
   },
+
   methods: {
     confirmDelete(index: number) {
       this.products.splice(index, 1);
       this.showModalSuccess = true;
     },
+
     confirmEdit(index: number) {
       let id = this.products[index].id;
       this.$router.push({
@@ -93,15 +98,18 @@ export default defineComponent({
         query: { id: id },
       });
     },
+
     cancel() {
       return;
     },
+
     passNewProduct() {
       this.$router.push("/homemanage/newproduct");
     },
   },
 });
 </script>
+
 <style lang="scss" scoped>
 a {
   text-decoration: none;

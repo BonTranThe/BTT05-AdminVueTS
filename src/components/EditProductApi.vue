@@ -66,16 +66,19 @@
     </transition>
   </div>
 </template>
+
 <script lang="ts">
 import { mapState } from 'vuex';
 import { defineComponent } from 'vue'
 import { store } from '../store/index'
-interface Product {
+
+interface ProductAPI {
   id: string,
   name: string,
-  price: number,
-  quantity: number,
+  price: string,
+  quantity: string,
 }
+
 export default defineComponent({
   name: "EditProductApi",
   data() {
@@ -108,21 +111,29 @@ export default defineComponent({
       },
     }
   },
+
   computed: {
     ...mapState(["productsAPI"]),
-    productEdit(): Product {
-      return this.productsAPI.find((product: Product) => product.id == this.$route.query.id);
+    productEdit(): ProductAPI {
+      return this.productsAPI.find((product: ProductAPI) => product.id == this.$route.query.id);
     },
   },
+
   methods: {
     saveItem() {
       if (
        this.productEdit.name === "" ||
-       this.productEdit.price === null ||
-       this.productEdit.quantity === null
+       this.productEdit.price === "" ||
+       this.productEdit.quantity === ""
       ) {
        this.showModalFailed = true;
-      } else {
+       return;
+      }
+      if (
+       this.productEdit.name !== "" &&
+       this.productEdit.price !== null &&
+       this.productEdit.quantity !== null
+      ) {
        store.dispatch("editProductAPI", this.productEdit);
        this.loading = true;
         setTimeout(() => {
