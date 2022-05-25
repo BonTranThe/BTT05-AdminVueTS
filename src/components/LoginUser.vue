@@ -54,6 +54,7 @@
 import { mapState } from "vuex";
 import { defineComponent } from "vue";
 import { store } from "../store/index";
+
 interface UserAPI {
   id: string;
   username: string;
@@ -61,6 +62,7 @@ interface UserAPI {
   password: string;
   isLogin: boolean;
 }
+
 export default defineComponent({
   name: "LoginUser",
   data() {
@@ -117,7 +119,7 @@ export default defineComponent({
       if (this.userAPI.username === "" || this.userAPI.password === "") {
         e.preventDefault();
         setTimeout(() => (this.loading = false), 600);
-        alert("Failed!")
+        alert("Failed!");
         return;
       } else if (this.usersAPI.length === 0) {
         e.preventDefault();
@@ -192,6 +194,7 @@ el-input {
 .icon-hide:hover {
   cursor: pointer;
 }
+
 .icon-show {
   display: none;
 }

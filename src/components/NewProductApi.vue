@@ -44,7 +44,9 @@
           >
         </el-form-item>
       </el-form>
-      <router-link to="/homemanage/listproductapi">Go to List Product API</router-link>
+      <router-link to="/homemanage/listproductapi"
+        >Go to List Product API</router-link
+      >
     </el-card>
   </div>
   <div class="modal" v-if="showModalSuccess">
@@ -54,26 +56,31 @@
     <transition name="slide" appear>
       <div class="alertSuccess">
         <p>Add Product Successfull!</p>
-        <el-button type="success" @click="showModalSuccess = false">Close</el-button>
+        <el-button type="success" @click="showModalSuccess = false"
+          >Close</el-button
+        >
       </div>
     </transition>
   </div>
-    <div class="modal" v-if="showModalFailed">
+  <div class="modal" v-if="showModalFailed">
     <transition name="fade" appear>
       <div class="modal-overlay"></div>
     </transition>
     <transition name="slide" appear>
       <div class="alertFailed">
         <p>Add Product Failed!</p>
-        <el-button type="error" @click="showModalFailed = false">Close</el-button>
+        <el-button type="error" @click="showModalFailed = false"
+          >Close</el-button
+        >
       </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { store } from '../store/index'
+import { defineComponent } from "vue";
+import { store } from "../store/index";
+
 export default defineComponent({
   name: "NewProductApi",
   data() {
@@ -133,7 +140,7 @@ export default defineComponent({
           this.productAPI.name = "";
           this.productAPI.price = "";
           this.productAPI.quantity = "";
-        },1000);
+        }, 1000);
         e.preventDefault();
         store.dispatch("addProductAPI", this.productAPI);
       }

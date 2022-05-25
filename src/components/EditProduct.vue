@@ -65,16 +65,19 @@
     </transition>
   </div>
 </template>
+
 <script lang="ts">
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue';
+
 interface Product {
   id: string,
   name: string,
   price: string,
   quantity: string,
 }
-import { defineComponent } from 'vue';
 const STORAGE_KEY = "listProduct";
+
 export default defineComponent({
   name: "EditProduct",
   data() {
@@ -121,12 +124,14 @@ export default defineComponent({
       },
     }
   },
+
   computed: {
     ...mapState(["products"]),
     productEdit(): Product {
       return this.products.find((product: Product) => product.id == this.$route.query.id);
     },
   },
+
   watch: {
     products: {
       handler(products: Product) {
@@ -135,6 +140,7 @@ export default defineComponent({
       deep: true,
     },
   },
+
   methods: {
     saveItem() {
       if (

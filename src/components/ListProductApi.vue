@@ -60,12 +60,14 @@
 import { mapState } from "vuex";
 import { defineComponent } from 'vue'
 import { store } from '../store/index'
+
 interface ProductAPI {
   id: string,
   name: string,
   price: string,
   quantity: string,
 }
+
 export default defineComponent({
   name: "ListProductApi",
   data() {
@@ -133,6 +135,7 @@ a {
   height: 30px;
   font-size: 15px;
 }
+
 .edit {
   margin-right: 14px;
 }

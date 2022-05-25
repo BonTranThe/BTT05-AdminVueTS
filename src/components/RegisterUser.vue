@@ -54,21 +54,23 @@
           >
         </el-form-item>
       </el-form>
-    <router-link to="/">Already to login? Login</router-link>
+      <router-link to="/">Already to login? Login</router-link>
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 import { mapState } from "vuex";
-import { store } from '../store/index';
+import { store } from "../store/index";
+
 interface UserAPI {
-  username: string,
-  email: string,
-  password: string,
-  isLogin: boolean,
+  username: string;
+  email: string;
+  password: string;
+  isLogin: boolean;
 }
+
 export default defineComponent({
   name: "RegisterUser",
   data() {
@@ -98,7 +100,7 @@ export default defineComponent({
           {
             type: "email",
             message: "Email Correctly has '@gmail.com'!",
-            trigger: ["blur","change"],
+            trigger: ["blur", "change"],
           },
         ],
         password: [
@@ -119,12 +121,14 @@ export default defineComponent({
   mounted() {
     store.dispatch("getUsers");
   },
+
   computed: {
     ...mapState(["usersAPI"]),
     filterDataUser(): UserAPI {
       return this.usersAPI;
     },
   },
+
   methods: {
     show() {
       if (this.status === false) {
