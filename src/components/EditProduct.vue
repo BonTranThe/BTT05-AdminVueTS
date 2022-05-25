@@ -146,9 +146,9 @@ export default defineComponent({
         return;
       }
       if (
-        this.productEdit.price === "" &&
-        this.productEdit.quantity === "" &&
-        this.productEdit.name === ""
+        this.productEdit.price !== "" &&
+        this.productEdit.quantity !== "" &&
+        this.productEdit.name !== ""
       ) {
         this.showModalSuccess = true;
         this.$router.push("/homemanage/listproduct");
